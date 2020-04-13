@@ -1,0 +1,70 @@
+ TITLE:	MPlus_Dalia_policy_support_questionA 
+ DATA:	
+  	FILE IS /Users/xuenanni/Desktop/thesis/Mplus/pol_supp.txt;
+
+  VARIABLE:	
+  	NAMES ARE  	
+                      
+    	ind_ID country_ID
+         q04A   q04B  q04C  q04D  q04E  q04F  q04G  q04H  q04I  q04J  q04K
+         age gen  inc
+         q01D q01E q01A q01K q01O q02 q09 q10 ess
+         q14A q14B q14C  q14D  q14E  q14F  q14G  q14H  q14I  q14J  q14K  q14L  q14X
+         q15A q15B q15C q15D q15E q15F popden
+         low_edu high_edu 
+         access owning rail other peer tt_week miles_day
+         AE  AR AT AU BE BH BR CA CH CL CN CO DE DK DZ EC EG ES FR GB GR HK ID
+         IE IL IN IT JP KE KR MA MX MY NL NO PE PH PK PL PT RU SA SE SG TH TR UA
+         US VE VN  ZA; 
+
+    	
+    USEVARIABLES ARE
+     	 
+     	  ind_ID   country_ID
+           q04A
+           age  gen  inc
+           q14A q14B q14F q14K q15A q15B q15C q15D q15F
+           ess   low_edu  high_edu  popden
+           access  owning  
+           q01D q01E q01A  q01K q01O  rail  
+           AE  AR AT AU BE BH BR CA CH CL CN CO DE DK DZ EC EG ES FR GB GR HK ID
+           IE IL IN IT JP KE KR MA MX MY NL NO PE PH PK PL PT RU SA SE SG TH TR UA
+           US VE VN;
+           
+
+    CATEGORICAL = q04A q14A q14B q14F q14K q15A q15B q15C q15D q15F;
+ 
+    CLUSTER = country_ID; !leave the cluster = xx for typle = complex ! single level model
+    IDVARIABLE = ind_ID;
+    MISSING = ALL (-9999);
+
+  
+  ANALYSIS:
+      TYPE = COMPLEX;
+      ESTIMATOR = MLR;
+      INTEGRATION = MONTECARLO;
+
+
+  MODEL: !No within and between;
+       !Latent variable measurement model for carpride
+       carpride BY q14A* q14B q14F q14K q15A q15B q15C q15D q15F;
+       carpride @ 1;
+
+       !Regression of car pride on socio-demographics 
+       !carpride ON age gender income; 
+   
+       !choice model
+       q04A ON age  gen  low_edu  high_edu  inc    
+               ess access  owning carpride popden
+               q01D q01E q01A  q01K q01O  rail  
+               AE  AR AT AU BE BH BR CA CH CL CN CO DE DK DZ EC EG ES FR GB GR HK ID
+               IE IL IN IT JP KE KR MA MX MY NL NO PE PH PK PL PT RU SA SE SG TH TR UA
+               US VE VN;
+               inc;
+
+
+  OUTPUT:
+      STD STDY STDYX;
+  SAVEDATA:
+        
+      RESULTS ARE /Users/xuenanni/Desktop/thesis/Mplus/resultA.dat
