@@ -36,11 +36,12 @@ View(data)
 # To use the fmsb package, I have to add 2 lines to the dataframe: the max and min of each variable to show on the plot!
 data <- rbind(rep(1,11) , rep(-1,11) , data)
 
+data = data[c(1:2,6:7),]
 # Color vector
 alpha = 0.1
 colors_border=c( 'red','green', 'blue','cadetblue1' ,'deeppink2','gold1')
 colors_in=c( alpha('red',alpha), alpha('green',alpha), alpha('blue',alpha), alpha('cadetblue1',alpha), alpha('deeppink2',alpha), alpha('gold1' ,alpha))
-
+png("/Users/xuenanni/Desktop/thesis/TRB/country_comp/radar_45.png", width = 16, height = 10, units = 'in', res = 800)
 # plot with default options:
 radarchart( data  , axistype=1, pty=32,
             #custom polygon
@@ -48,8 +49,9 @@ radarchart( data  , axistype=1, pty=32,
             #custom the grid
             cglcol="grey", cglty=1, axislabcol="grey", caxislabels=c("-1", "", "", "", "1"), cglwd=0.5,
             #custom labels
-            vlcex=0.8 
+            vlcex=1.2
 )
 
 # Add a legend
-legend(x=1, y=1.3, legend = rownames(data[-c(1,2),]), bty = "n", pch=20 , col=colors_border, text.col = "grey", cex=0.8, pt.cex=2)
+legend(x=1, y=1.3, legend = rownames(data[-c(1,2),]), bty = "n", pch=20 , col=colors_border, text.col = "black", cex=0.8, pt.cex=2)
+dev.off()
